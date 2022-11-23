@@ -1,0 +1,19 @@
+{
+  "name": "express-with-clean-architecture",
+  "version": "1.0.0",
+  "description": "REST API with NodeJS using TDD, Clean Architecture and Design Patterns",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/murilera/express-with-clean-architecture.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/murilera/express-with-clean-architecture/issues"
+  },
+  "homepage": "https://github.com/murilera/express-with-clean-architecture#readme"
+}
