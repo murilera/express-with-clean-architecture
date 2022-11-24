@@ -125,4 +125,24 @@ describe('Login Router', () => {
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body.accessToken).toEqual(authUseCaseSpy.accessToken)
   })
+
+  test('should return 500 when AuthUseCase throws', () => {
+    class AuthUseCaseSpy {
+      auth () {
+        throw new Error()
+      }
+    }
+    const authUseCaseSpy = new AuthUseCaseSpy()
+    const sut = new LoginRouter(authUseCaseSpy)
+    // authUseCaseSpy.accessToken = 'valid_token'
+    const httpRequest = {
+      body: {
+        email: 'valid_email@mail.com',
+        password: 'valid_password'
+      }
+    }
+    const httpResponse = sut.route(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(500)
+  })
 })
