@@ -3,6 +3,13 @@ const MissingParamError = require('../../../src/presentation/helpers/missing-par
 const UnauthorizedError = require('../../../src/presentation/helpers/unauthorized-error')
 
 const makeSut = () => {
+  const authUseCaseSpy = makeAuthUseCase()
+  authUseCaseSpy.accessToken = 'valid_token'
+  const sut = new LoginRouter(authUseCaseSpy)
+  return { sut, authUseCaseSpy }
+}
+
+const makeAuthUseCase = () => {
   class AuthUseCaseSpy {
     auth (email, password) {
       this.email = email
@@ -10,10 +17,16 @@ const makeSut = () => {
       return this.accessToken
     }
   }
-  const authUseCaseSpy = new AuthUseCaseSpy()
-  authUseCaseSpy.accessToken = 'valid_token'
-  const sut = new LoginRouter(authUseCaseSpy)
-  return { sut, authUseCaseSpy }
+  return new AuthUseCaseSpy()
+}
+
+const makeAuthUseCaseWithError = () => {
+  class AuthUseCaseSpy {
+    auth (email, password) {
+      throw new Error()
+    }
+  }
+  return new AuthUseCaseSpy()
 }
 
 describe('Login Router', () => {
@@ -127,14 +140,8 @@ describe('Login Router', () => {
   })
 
   test('should return 500 when AuthUseCase throws', () => {
-    class AuthUseCaseSpy {
-      auth () {
-        throw new Error()
-      }
-    }
-    const authUseCaseSpy = new AuthUseCaseSpy()
+    const authUseCaseSpy = makeAuthUseCaseWithError()
     const sut = new LoginRouter(authUseCaseSpy)
-    // authUseCaseSpy.accessToken = 'valid_token'
     const httpRequest = {
       body: {
         email: 'valid_email@mail.com',
