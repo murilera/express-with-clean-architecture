@@ -4,9 +4,10 @@
   "description": "REST API with NodeJS using TDD, Clean Architecture and Design Patterns",
   "main": "index.js",
   "scripts": {
-    "test:staged": "jest --watch",
     "test": "jest --passWithNoTests --findRelatedTests --silent --verbose --colors",
-    "test:ci": "jest --coverage",
+    "test:unit": "npm test -- --watch",
+    "test:staged": "npm test -- --noStackTrace",
+    "test:ci": "npm test -- --coverage",
     "prepare": "husky install"
   },
   "standard": {
